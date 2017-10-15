@@ -1,15 +1,24 @@
 version: '2'
 
 services:
+  pio_db:
+    image: postgres:9.6
+    environment:
+      - POSTGRES_USER=predictionio
+      - POSTGRES_PASSWORD=1234
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:5.5.0
+    image: elasticsearch:1.7.6
     ports:
     - 9200:9200
+    - 9300:9300
+    volumes:
+    - ./files/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
     environment:
-      - cluster.name=predictionio
-      - bootstrap.memory_lock=true
+      - cluster.name=pio
       - http.host=0.0.0.0
+      - network.publish_host=127.0.0.1
+      - discovery.type=single-node
       - xpack.security.enabled=false
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
@@ -22,6 +31,7 @@ services:
     build: .
     image: predictionio
     depends_on:
+    - pio_db
     - elasticsearch
     volumes:
     - ./files/pio-env.sh:/opt/pio/conf/pio-env.sh:ro

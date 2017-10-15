@@ -1,0 +1,3 @@
+cluster.name: pio
+discovery.zen.ping.multicast.enabled: false # most cloud services don't allow multicast
+discovery.zen.ping.unicast.hosts: ["elasticsearch"] # add all hosts, masters and/or data nodes
