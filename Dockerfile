@@ -1,7 +1,5 @@
 FROM phusion/baseimage:0.9.22
 
-MAINTAINER Thomas Decaux
-
 RUN apt-get update \
     && apt-get install -y --auto-remove --no-install-recommends curl openjdk-8-jdk libgfortran3 python-pip git wget nano ca-certificates \
     && apt-get clean \
@@ -39,6 +37,6 @@ RUN rm -rf /tmp/* && \
 	rm -rf /etc/service/{cron,syslog-forwarder,syslog-ng,sshd}
 
 COPY files/pio_event_service /etc/service/pio_event/run
-
-HEALTHCHECK --interval=30s --timeout=30s --retries=3 \
-  CMD curl -si localhost:7070/health | grep 'HTTP/1.1 200 OK' > /dev/null
+COPY files/pio_query_service /etc/service/pio_query/run
+COPY universal-recommender /root/ur
+COPY files/import_likes_data.sh /root/ur/examples/import_likes_data.sh

@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+until $(curl --output /dev/null --silent --head --fail http://pio:7070); do
+    printf '.'
+    sleep 5
+done
+
+sleep 2
+
+cd /root/ur
+
+exec pio app list 2>&1 | grep -qi "likes"
+
+if [ $? -eq 0 ] ; then
+  echo "app is already present"
+else
+  pio app new --access-key piokey likes
+  echo "new app created"
+  pio build
+  sh examples/import_likes_data.sh
+  pio train
+fi
+
+pio deploy 
