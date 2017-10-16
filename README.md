@@ -1,6 +1,7 @@
 This project contains:
-- Docker image to build with predictionIO + Spark
-- A docker-compose yml file to run elasticsearch + the built image
+- Docker image to build with predictionIO + Spark + JDBC driver
+- A docker-compose yml file to run postgres, elasticsearch, eventserver and queries server
+- Integrated universal-recommender with likes engine
 
 Please read ``docker-compose.yml`` file to get more details about:
 - ports
@@ -9,8 +10,8 @@ Please read ``docker-compose.yml`` file to get more details about:
 
 ## Softwares
 
-* elasticsearch 5.5 (official Docker image)
-* Spark 2.1.1 for Hadoop 2.6
+* elasticsearch 1.7.6 (official Docker image)
+* Spark 1.6.3 for Hadoop 2.6
 * predictionIO 0.11.0
 
 ## Requirements
@@ -21,16 +22,8 @@ Please read ``docker-compose.yml`` file to get more details about:
 
 ## Usage
 
-* Run Docker containers (elasticsearch and predictionIO) on background (should build automatically)
+* Run Docker containers on background (should build automatically)
 
-``docker-compose up -d``
+``sh start.sh``
 
-* Check ``localhost:9200`` (elasticsearch) and ``localhost:7070`` (pIO event server)
-
-* Connect to pIO container ``docker-compose exec pio bash``
-
-* Now you can follow any official tutorial !
-
-## Credits
-
-* Thomas Decaux from Qwant
+* Check ``localhost:9200`` (elasticsearch) and ``localhost:7070`` (pIO event server) and ```localhost:8000``` (Queries server)
