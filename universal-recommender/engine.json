@@ -1,0 +1,29 @@
+{
+  "id": "default",
+  "engineFactory": "com.actionml.RecommendationEngine",
+  "datasource": {
+    "params" : {
+      "appName": "likes",
+      "eventNames": ["like", "get_location"]
+    }
+  },
+  "sparkConf": {
+    "spark.serializer": "org.apache.spark.serializer.KryoSerializer",
+    "spark.kryo.registrator": "org.apache.mahout.sparkbindings.io.MahoutKryoRegistrator",
+    "spark.kryo.referenceTracking": "false",
+    "es.nodes": "elasticsearch:9200",
+    "es.index.auto.create": "true"
+  },
+  "algorithms": [
+    {
+      "name": "ur",
+      "params": {
+        "appName": "likes",
+        "indexName": "urindex",
+        "typeName": "items",
+        "eventNames": ["like", "get_location"]
+      }
+    }
+  ]
+}
+
